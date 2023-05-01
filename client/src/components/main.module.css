@@ -1,0 +1,347 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+
+:root {
+    --primary-color: #0E4BF1;
+    --panel-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --border-color: #e6e5e5;
+    --toggle-color: #ddd;
+    --box1-color: #4DA3FF;
+    --box2-color: #FFE6AC;
+    --box3-color: #E7D1FC;
+    --title-icon-color: #fff;
+
+    --tran-05: all 0.5 ease;
+    --tran-03: all 0.3 ease;
+    --tran-05: all 0.2s ease;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+nav{
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 10px 14px;
+    width: 250px;
+    background-color: var(--panel-color);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.dashBody{
+    min-height: 100vh;
+    background-color: #fac042;
+
+}
+
+.logoImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 45px;
+}
+
+.logoName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoImage {
+    display: flex;
+    min-width: 45px;
+}
+
+img {
+    width: 40px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.logo_name {
+    font-size: 50px;
+    font-weight: 700;
+    color: #eb9526;
+    text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);;
+}
+
+.menuItems {
+    margin-top: 40px;
+    height: calc(100% - 90px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.icon {
+    text-decoration: none;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+i {
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-light-color)
+}
+
+.list {
+    list-style: none;
+}
+
+.linkName {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--black-light-color);
+}
+
+
+a:hover:before {
+    position: absolute;
+    left: -7px;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    background-color: #eb9526;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:hover i,
+a:hover .linkName {
+    color: #eb9526;
+    text-decoration: none;
+}
+
+body {
+    background-color:#fac042 ;
+}
+
+.dashboard {
+    background-color:#fac042 ;
+    height: 100vh;
+    width: 100%;
+    position: relative;
+    left: 250px
+}
+
+.dashContent {
+    padding-top: 30px;
+    margin-left: 100px;
+}
+
+.text{
+    color: black;
+    font-weight: 600;
+    font-size: 30px;
+    margin: 5px;
+}
+
+.container{
+    position: relative;
+    margin-top: 20px;
+    width: 1450px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container3{
+    position: relative;
+    width: 1450px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container2{
+    position: relative;
+    margin-top: 20px;
+    width: 1450px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.title {
+    display: flex;
+    align-items: center;
+    margin: 70px 0 30px 0;
+}
+
+#dashIcon {
+    border-radius: 6px;
+    margin: 3px;
+    padding: 3px;
+    color: #eb9526;
+    justify-content: center;
+    font-size: 40px;
+    background-color: white;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post {
+
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.post2 {
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.card {
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.username {
+    font-size: 20px;
+    font-weight: 600;
+}
+
+
+.cardTitle {
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.description {
+    padding: 20px;
+}
+
+.post:hover {
+    background-color: #ececec;
+}
+
+.viewLink {
+    margin: 5px;
+    color: var(--black-light-color);
+}
+
+.viewLink:hover {
+    color: #ffa530;
+}
+
+.commentLink {
+    text-decoration: none;
+    color: black;
+}
+
+.commentLink:hover {
+    color:black;
+    text-decoration: none;
+}
+
+.button1 {
+  background-color: #ffa530;
+  border-radius: 8px;
+  border-style: none;
+  box-sizing: border-box;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  height: 40px;
+  line-height: 20px;
+  list-style: none;
+  margin: 0;
+  outline: none;
+  padding: 10px 16px;
+  position: relative;
+  text-align: center;
+  text-decoration: none;
+  transition: color 100ms;
+  vertical-align: baseline;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+}
+
+.button1:hover,
+.button1:focus {
+  background-color: #eb9526;
+}
+
+.button2 {
+    background-color: red;
+    border-radius: 8px;
+    border-style: none;
+    box-sizing: border-box;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: inline-block;
+    font-family: "Haas Grot Text R Web", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 40px;
+    line-height: 20px;
+    list-style: none;
+    margin: 0;
+    outline: none;
+    padding: 10px 16px;
+    position: relative;
+    text-align: center;
+    text-decoration: none;
+    transition: color 100ms;
+    vertical-align: baseline;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+  }
+  
+  .button2:hover,
+  .button2:focus {
+    background-color: rgb(212, 3, 3);
+  }
+
+.div {
+    margin-left: 10px;
+}
+
+.sendComment {
+    display: flex;
+    align-items: center;
+}
+
+.input {
+    width: 100%;
+    margin: 10px;
+}
+
+.comment {
+    margin-top: 20px;
+    padding-left: 20px;
+}
+
+.commentContainer:hover {
+    background-color: #ececec;
+}
+
+.error {
+    color: red;
+    margin-left: 10px;
+}

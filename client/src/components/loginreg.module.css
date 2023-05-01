@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+.bodyLogin {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #fac042;
+}
+
+.container{
+    position: relative;
+    max-width: 430px;
+    width: 430px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.container form{
+    padding: 30px;
+    border-radius: 10px;
+}
+
+input:focus {
+    border-bottom-color: #4070f4;
+}
+
+.title {
+    position: relative;
+    font-size: 27px;
+    font-weight: 600;
+}
+
+.title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 30px;
+    background-color: #4070f4;
+    border-radius: 25px;
+}
+
+.inputField{
+    position: relative;
+    height: 50px;
+    width: 100%;
+    margin-top: 30px;
+}
+
+input{
+    height: 100%;
+    width: 100%;
+    border: none;
+    outline: none;
+    border-bottom: 2px solid #ccc;
+    border-top: 2px solid transparent;
+}
+
+.text{
+    color: #333;
+    font-size: 14px;
+}
+
+a {
+    color: #4070f4;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+.button {
+    margin-top: 10px;
+}
+
+.button {
+    border:none;
+    color: #fff;
+    font-size: 17px;
+    font-weight: 500;
+    border-radius: 6px;
+    cursor: pointer;
+    letter-spacing: 1px;
+    background-color:#4070f4;
+    transition: all 0.3s ease;
+}
+
+.button:hover {
+    background-color: #265df2;
+}
+
+.loginSignup {
+    height: 50px;
+    width: 100%;
+    text-align: center;
+}
+
+.viewLink {
+    color: black;
+    text-decoration: none;
+}
+
+.error {
+    color: red;
+}
