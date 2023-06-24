@@ -20,14 +20,20 @@ const UserSchema = new mongoose.Schema({
         required: [true, "Email is required"],
         validate: [isEmail, 'Invalid Email']
     },
+    isAdmin: {
+        type: Boolean,
+        required: [true, "IsAdmin is required"],
+        default: false,
+    },
     password: {
         type: String,
         required: [true, "Password is required"],
         minlength: [8, "Password must be 8 characters or longer"]
     },
-    following: [{
-        type: mongoose.Types.ObjectId, ref: 'user'
-    }]
+    image: { 
+        type: String,
+        default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
+    }
 
 }, { timestamps: true })
 

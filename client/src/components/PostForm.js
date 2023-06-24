@@ -1,28 +1,34 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
-import dashboard from './main.module.css'
+import dashboard from './css/main.module.css'
 
 
 const PostForm = (props) => {
     const navigate = useNavigate()
     const {allPosts, setAllPosts} = props
     const [errors, setErrors] = useState({})
-    const [username, setUsername] = useState('')
-    const [post, setPost] = useState({
-        description: ''
-    })
+    const [description, setDescription] = useState()
+    const [image, setImage] = useState('')
+
+    const fileSelectedHandler = (event) => {
+        const file = event.target.files[0]
+        const data = new FormData()
+        data.append('file', file)
+        data.append("upload_preset", "Hive_Media")
+        axios.post('https://api.cloudinary.com/v1_1/disq3dfbj/image/upload', data)
+        .then(res => {
+            console.log(res)
+            setImage(res.data.secure_url)
+        })
+        .catch(err => console.log(err))
 
 
-    const handleInputChange = (e) => {
-        console.log(e.target.name);
-        console.log(e.target.value);
-            setPost({...post, [e.target.name]: e.target.value})
     }
 
     const submitHandler = (e) => {
         e.preventDefault();
-        axios.post('http://localhost:8000/api/post/create', post, {withCredentials:true})
+        axios.post('http://localhost:8000/api/post/create', {description, image}, {withCredentials:true})
             .then((res) => {
                 console.log(res);
                 setAllPosts([...allPosts, res.data])
@@ -34,8 +40,6 @@ const PostForm = (props) => {
                 if(!err.response.data.verified){
                     setErrors(err.response.data.errors)
                 }
-                // console.log(err.response.data.error.errors);
-                // setErrors(err.response.data.errors);
             })
         }
 
@@ -104,8 +108,9 @@ const PostForm = (props) => {
                         <div class={dashboard.card}>
                             <form onSubmit={submitHandler}>
                                     <div class={dashboard.sendComment}> 
-                                    {/* <input type="text" placeholder="What is your post about?" name="description" onChange={handleInputChange} value={post.description}/> */}
-                                        <input type="text" class={dashboard.input} value={post.description} onChange= {handleInputChange} name="description" placeholder='What will your post be about?' />
+                                        <input type="file" class={dashboard.input} onChange= {fileSelectedHandler} name="image" placeholder='Upload Image' />
+
+                                        <input type="text" class={dashboard.input} onChange= {(e) => {setDescription(e.target.value)}} name="description" placeholder='What will your post be about?' />
                                         <button class={dashboard.button1}>Send</button>
                                     </div>
                                     {

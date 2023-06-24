@@ -13,6 +13,9 @@ const PostSchema = new mongoose.Schema({
     username: {
         type: String,
         required: [true, 'This field is required']
+    },
+    image: {
+        type: String
     }
 }, {timeStamps:true})
 const Post = mongoose.model('Post', PostSchema);

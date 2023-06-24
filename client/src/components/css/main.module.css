@@ -1,0 +1,350 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+
+:root {
+    --primary-color: #0E4BF1;
+    --panel-color: #FFF;
+    --text-color: #000;
+    --black-light-color: #707070;
+    --border-color: #a3a3a3;
+    --toggle-color: #ddd;
+    --box1-color: #4DA3FF;
+    --box2-color: #FFE6AC;
+    --box3-color: #E7D1FC;
+    --title-icon-color: #fff;
+    --base-color: #fac042;
+
+    --tran-05: all 0.5 ease;
+    --tran-03: all 0.3 ease;
+    --tran-05: all 0.2s ease;
+}
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+/* LAYOUT CSS */
+
+body{
+    background-color: black;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.topContent {
+    margin-top: 27px;
+    margin-bottom: 0;
+    display: flex;
+    align-items: center;
+}
+
+.bottomContent {
+    margin-top: 48px;
+    display: flex;
+    flex-direction: column;
+}
+
+
+/* PAGE ITEMS CSS */
+
+.pageTitleContainer {
+    display: flex;
+    align-items: center;
+    flex-direction: row;
+}
+
+.pageTitle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.pageTitleText {
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 20px;
+}
+
+/* NAV CSS */
+
+nav {
+    position: fixed;
+    left: 350px;
+    height: 100vh;
+    padding: 10px 14px;
+    width: 250px;
+    background-color: black;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-right: solid 2px var(--black-light-color);
+    border-left: solid 2px var(--black-light-color);
+}
+
+
+.logoImage {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 45px;
+}
+
+.logoName {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.logoImage {
+    display: flex;
+    min-width: 45px;
+}
+
+.logo_name {
+    font-size: 50px;
+    font-weight: 700;
+    color: var(--base-color);
+    text-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);;
+}
+
+.menuItems {
+    margin-top: 40px;
+    height: calc(100% - 90px);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.icon {
+    text-decoration: none;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+i {
+    font-size: 24px;
+    min-width: 45px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--black-light-color)
+}
+
+.list {
+    list-style: none;
+}
+
+.linkName {
+    font-size: 18px;
+    font-weight: 400;
+    color: var(--black-light-color);
+}
+
+
+a:hover:before {
+    position: absolute;
+    left: -7px;
+    height: 5px;
+    width: 5px;
+    border-radius: 50%;
+    background-color: #eb9526;
+}
+
+a:hover {
+    text-decoration: none;
+}
+
+a:hover i,
+a:hover .linkName {
+    color: var(--base-color);
+    text-decoration: none;
+}
+
+/* MESSAGE LIST CSS */
+
+.messageList {
+    position: fixed;
+    right: 300px;
+    height: 100vh;
+    padding: 10px 14px;
+    width: 300px;
+    background-color: black;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-left: solid 2px var(--black-light-color);
+    border-right: solid 2px var(--black-light-color);
+}
+
+.messageListUserHeading {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+    background-color: green;
+}
+
+.openChat{
+    border: none;
+    border-radius: 10px;
+    background-color: black;
+    width: 100%;
+}
+
+.openChat:hover{
+    background-color: var(--base-color);
+}
+
+/* .loggedUserMessage {
+    color: white;
+    background-color: blue;
+    text-align: right;
+    border-radius: 6px;
+    width: fit-content;
+    padding: 3px;
+}
+
+.userMessage {
+    color: white;
+} */
+
+.messageListUsername {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 5px;
+    color: white;
+}
+
+.chatBox {
+    background-color: var(--base-color);
+    padding: 10px;
+    border-radius: 5px;
+  }
+
+.messageContainer {
+    margin-bottom: 10px;
+  }
+
+
+.topMessageContainer {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 10px;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    flex-direction: column;
+    /* flex-wrap: wrap; */
+}
+  
+.messageDiv {
+    margin-bottom: 10px;
+    inline-size: 100%;
+    /* background-color: blue; */
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+  }
+
+.messageDiv p {
+    margin: 0;
+    padding: 5px;
+    overflow: hidden;
+  }
+  
+.messageInputGroup {
+    display: flex;
+    margin-top: 5px;
+  }
+  
+.chatInput {
+    flex-grow: 1;
+    padding: 5px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+  }
+  
+.chatSendBtn {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: #007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+
+/* GROUP CHAT CSS */
+
+.createGroupChatBtn{
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    width: 100%;
+    background-color: #007bff;
+    color: white;
+    font-weight: 500;
+}
+
+.groupChatInputContainer{
+    background-color: white;
+}
+
+
+/* CONTAINER CSS */
+
+.profilePicture {
+    clip-path: circle();
+    width: 50px;
+    margin-right: 5px;
+}
+
+.profileLink {
+    text-decoration: none;
+    color: var(--base-color);
+}
+
+.profileLink:hover{
+    color: white;
+}
+
+.username {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 5px;
+}
+
+.usernameWithProfilePicture {
+    display: flex;
+    align-items: center;
+}
+
+.post_image {
+    height: 350px;
+}
+
+.container{
+    width: 100%;
+    margin-top: 20px;
+    background: black;
+    border: solid 2px var(--black-light-color);
+    border-radius: 10px;
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+}
+
+.containerContent {
+    padding: 10px;
+    margin: 5px;
+}
+
+.containerHeading {
+    margin: 15px 15px 0px 15px;
+}
+
+.postDescription {
+    margin-top: 10px;
+    color: white;
+}

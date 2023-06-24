@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Link, useNavigate, useParams} from 'react-router-dom';
-import dashboard from './main.module.css'
+import dashboard from './css/main.module.css'
 
 const Profile = () => { 
     const navigate = useNavigate()
@@ -9,13 +9,13 @@ const Profile = () => {
     const [user, setUser] = useState({
         username: ''
     })
+    const [image, setImage] = useState('')
+    const [updatedUsername, setUpdatedUsername] = useState()
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/loggedInUser/${id}`)
             .then((res) => {
-                console.log(res)
                 setUser(res.data.oneUser)
-                console.log("USER INFO:", user)
             })
             .catch((err) => {
                 console.log("Failed to connect to route")
@@ -25,8 +25,9 @@ const Profile = () => {
 
     const submitHandler = (e) => {
         e.preventDefault();
-        axios.put(`http://localhost:8000/api/updateUser/${id}`, user)
-            .then((res) => {
+        console.log("USER UPDATING...")
+        axios.put(`http://localhost:8000/api/updateUser/${id}`, {image, updatedUsername})
+            .then(() => {
                 navigate('/profile')
             })
             .catch((err) => {
@@ -34,6 +35,24 @@ const Profile = () => {
             })
     }
 
+    const handleInputChange = (e) => {
+        setUpdatedUsername({...setUpdatedUsername, [e.target.name]: e.target.value})
+    }
+
+    const fileSelectedHandler = (event) => {
+        const file = event.target.files[0]
+        const data = new FormData()
+        data.append('file', file)
+        data.append("upload_preset", "Hive_Media")
+        axios.post('https://api.cloudinary.com/v1_1/disq3dfbj/image/upload', data)
+        .then(res => {
+            console.log(res)
+            setImage(res.data.secure_url)
+        })
+        .catch(err => console.log(err))
+
+
+    }
 
     const logout = () => {
         axios.post('http://localhost:8000/api/logout', {} , {withCredentials:true})
@@ -101,26 +120,19 @@ const Profile = () => {
                                 <form onSubmit={submitHandler}>
                                     <div class={dashboard.sendComment}>
                                             <label for="username" class={dashboard.inputLabel}>Username:</label>
-                                            <input type="text" name="username" class={dashboard.input} placeholder={user.username}/>
-                                    </div>
-                                    {/* <div class={dashboard.sendComment}>
-                                            <label for="username" class={dashboard.inputLabel}>First Name:</label>
-                                            <input type="text" name="username" class={dashboard.input} placeholder={user.firstName}/>
+                                            <input type="text" name="username" onChange={handleInputChange} class={dashboard.input} placeholder={user.username}/>
                                     </div>
                                     <div class={dashboard.sendComment}>
-                                            <label for="username" class={dashboard.inputLabel}>Last Name:</label>
-                                            <input type="text" name="username" class={dashboard.input} placeholder={user.lastName}/>
+                                            <label for="image" class={dashboard.inputLabel}>Profile Picture:</label>
+                                            <input type="file" class={dashboard.input} onChange={fileSelectedHandler} name="image" placeholder='Upload Image' />
                                     </div>
-                                    <div class={dashboard.sendComment}>
-                                            <label for="username" class={dashboard.inputLabel}>Email:</label>
-                                            <input type="text" name="username" class={dashboard.input} placeholder={user.email}/>
-                                    </div>
-                                    <div class={dashboard.sendComment}>
-                                            <label for="username" class={dashboard.inputLabel}>Password:</label>
-                                            <input type="password" name="username" class={dashboard.input} placeholder="Super secret password"/>
-                                    </div> */}
-                                    <button class={dashboard.button1}>Update Profile</button>
+                                        
+                                    <button type="submit" class={dashboard.button1}>Update Profile</button>
                                     </form>
+                                    {
+                                        user.image? 
+                                        <img src={user.image}/>:null
+                                    }
                             </div>
                         </div>
                     </div>

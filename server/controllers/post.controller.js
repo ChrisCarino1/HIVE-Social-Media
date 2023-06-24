@@ -78,5 +78,17 @@ module.exports = {
         catch(err){
             res.status(500).json(err)
         }
+    },
+
+    allPostsByUser: async (req,res) => {
+        try{
+            console.log("USER ID", req.params.id)
+            const id = req.params.id
+            const allPostsByUser = await Post.find({user_id:id})
+            res.json(allPostsByUser)
+        }
+        catch(err){
+            res.status(500).json(err)
+        }
     }
 }

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import {useParams,useNavigate} from 'react-router-dom'
-import dashboard from './main.module.css'
+import dashboard from './css/main.module.css'
 
 const EditForm = (props) => {
     const navigate = useNavigate()

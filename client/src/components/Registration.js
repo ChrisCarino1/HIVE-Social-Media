@@ -1,7 +1,7 @@
 import { Link, useNavigate} from 'react-router-dom';
 import axios from 'axios'
 import React, {useState} from 'react';
-import loginreg from './loginreg.module.css'
+import loginreg from './css/loginreg.module.css'
 
 const Registration = (props) => {
     const navigate = useNavigate()
