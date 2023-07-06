@@ -28,16 +28,25 @@
 
 /* LAYOUT CSS */
 
-body{
-    background-color: black;
+/* body{
+    background-color: green;
     display: flex;
     justify-content: center;
-    flex-direction: row;
+} */
+
+.row{
+    background-color: black;
+    min-height: 100vh;
+}
+
+.row:after{
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .topContent {
     margin-top: 27px;
-    margin-bottom: 0;
     display: flex;
     align-items: center;
 }
@@ -48,25 +57,32 @@ body{
     flex-direction: column;
 }
 
+.column {
+    float:left;
+    width: 33.33%;
+    padding: 0px 10px 10px 10px;
+}
 
 /* PAGE ITEMS CSS */
 
-.pageTitleContainer {
+/* .pageTitleContainer {
     display: flex;
     align-items: center;
     flex-direction: row;
+    background-color: green;
 }
 
 .pageTitle {
     display: flex;
     align-items: center;
     justify-content: center;
-}
+} */
 
 .pageTitleText {
     margin-right: 10px;
     font-weight: 600;
-    font-size: 20px;
+    font-size: 30px;
+    color: white;
 }
 
 /* NAV CSS */
@@ -183,7 +199,7 @@ a:hover .linkName {
     display: flex;
     align-items: center;
     margin: 5px;
-    background-color: green;
+    background-color: var(--base-color);
 }
 
 .openChat{
@@ -226,7 +242,6 @@ a:hover .linkName {
 .messageContainer {
     margin-bottom: 10px;
   }
-
 
 .topMessageContainer {
     max-height: 200px;
@@ -315,6 +330,7 @@ a:hover .linkName {
     font-size: 20px;
     font-weight: 600;
     margin: 5px;
+    color: white;
 }
 
 .usernameWithProfilePicture {
@@ -322,8 +338,13 @@ a:hover .linkName {
     align-items: center;
 }
 
-.post_image {
-    height: 350px;
+.postImageContainer img {
+    height: auto;
+    max-width: 100%;
+}
+
+.postImageContainer {
+    overflow: hidden;
 }
 
 .container{
@@ -347,4 +368,171 @@ a:hover .linkName {
 .postDescription {
     margin-top: 10px;
     color: white;
+}
+
+
+/* Profile Page CSS */
+
+.profilePageUsername {
+    font-size: 40px;
+    font-weight: 600;
+    margin: 5px;
+    color: white;
+}
+
+.profilePageInputGroup {
+    display: flex;
+}
+
+.profilePageLabels {
+    display: flex;
+    flex-direction: column;
+    margin: 5px;
+}
+
+.profilePageInputs {
+    display: flex;
+    flex-direction: column;
+}
+
+.profilePageDisplayImage {
+    width: 300px;
+}
+
+.profilePageImageDiv {
+    margin: 20px 35px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.profilePageSubmitDiv {
+    display: flex;
+    justify-content: flex-end;
+    margin: 20px 35px;
+}
+
+.inputLabel {
+    color: white;
+    font-weight: 500;
+    margin: 5px;
+}
+
+.input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    border-top: 2px solid transparent;
+}
+
+/* VIEW USER PROFILE CSS */
+
+.viewUserInfoContainer {
+    display: flex;
+    margin: 15px 15px 15px 15px;
+}
+
+.profileTagContainer {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    width: 65%;
+}
+
+.profileTagInfo {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-around;
+}
+
+.profileTagInfo .Link {
+    color: white;
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 14px;
+}
+
+.profileTagInfo button {
+        padding: 5px 10px;
+        margin-left: 5px;
+        background-color: lightgreen;
+        color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+}
+
+/* POST FORM CSS */
+
+.createPostGroup {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.createPostGroup input, button {
+    margin: 5px;
+}
+
+.createPostGroup button {
+    padding: 5px;
+    width: 100%;
+    background-color: rgb(85, 247, 85);
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+/* VIEW POST CSS */
+
+.commentContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    color: white;
+}
+
+.commentContainer div button {
+    border: none;
+    background: none;
+    color: rgb(141, 141, 141);
+}
+
+.commentContainer div button:hover {
+    color: red;
+}
+
+.commentContainer div {
+    display: flex;
+}
+
+.commentContainer p {
+    margin: 0px 10px;
+}
+
+.commentForm div {
+    display: flex;
+    width: 100%;
+    align-items: center;
+}
+
+.commentForm button {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: rgb(49, 240, 49);
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.commentForm input {
+    height: 100%;
+    width: 100%;
+    border: none;
+    border-radius: 5px;
+    outline: none;
 }

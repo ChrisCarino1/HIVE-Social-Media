@@ -1,15 +1,17 @@
 import React, {useState} from 'react'
 import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
-import dashboard from './css/main.module.css'
+import main from './css/main.module.css'
+import Nav from './Nav'
+import MessageList from './MessageList'
 
 
 const PostForm = (props) => {
-    const navigate = useNavigate()
-    const {allPosts, setAllPosts} = props
+    const {allPosts, setAllPosts, allUsers, setAllUsers, loggedInUser, setLoggedInUser, loggedInUserID, socket} = props
     const [errors, setErrors] = useState({})
     const [description, setDescription] = useState()
     const [image, setImage] = useState('')
+    const navigate = useNavigate()
 
     const fileSelectedHandler = (event) => {
         const file = event.target.files[0]
@@ -56,74 +58,45 @@ const PostForm = (props) => {
         }
 
     return (
-        <body class={dashboard.body}>
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
-        <nav>
-            <div class={dashboard.logoName}>
-                <div class={dashboard.logoImage}>
-                    <span class={dashboard.logo_name}>HIVE</span>
-                </div>
+        <div className={main.row}>
+            <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+            <div className={main.column}>
+                <Nav/>
             </div>
-            <div class={dashboard.menuItems}>
-                <ul class={dashboard.menuLinks}> 
-                    <li class={dashboard.list}>
-                        <a href={'/dashboard'} class={dashboard.icon}>
-                            <i class="uil uil-estate"></i>
-                            <span class={dashboard.linkName}>Home</span>
-                        </a>
-                    </li>
-                    <li class={dashboard.list}>
-                            <a href={'/myPosts'} class={dashboard.icon}>
-                            <i class="uil uil-user"></i>
-                                <span class={dashboard.linkName}>My posts</span>
-                            </a>
-                        </li>
-                    <li class={dashboard.list}>
-                        <a href={'/dashboard'} class={dashboard.icon}>
-                            <i class="uil uil-plus-circle"></i>
-                            <span class={dashboard.linkName}>Create Post</span>
-                        </a>
-                    </li>
-                </ul>
-                <ul class={dashboard.logoutMod}>
-                    <li class={dashboard.list}>
-                        <a class={dashboard.icon}>
-                            <i class="uil uil-signout"></i>
-                            <span class={dashboard.linkName} onClick={logout}>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-        </nav>
-
-        <section class={dashboard.dashboard}>
-            <div class={dashboard.dashContent}>
-                <div class={dashboard.overview}>
-                    <div class={dashboard.title}>
-                        <i class="uil uil-plus" id={dashboard.dashIcon}></i>
-                        <h1 class={dashboard.text}>Create Post</h1>
+            <div className={main.column}>
+                <div className={main.topContent}>
+                    <div className={main.pageTitleContainer}>
+                        <span className={main.pageTitleText}>Create Post</span>
                     </div>
-
-                    <div class={dashboard.container3}>
-                        <div class={dashboard.card}>
+                </div>
+                <div className={main.bottomContent}>
+                    <div className={main.container}>
+                        <div className={main.containerContent}>
                             <form onSubmit={submitHandler}>
-                                    <div class={dashboard.sendComment}> 
-                                        <input type="file" class={dashboard.input} onChange= {fileSelectedHandler} name="image" placeholder='Upload Image' />
-
-                                        <input type="text" class={dashboard.input} onChange= {(e) => {setDescription(e.target.value)}} name="description" placeholder='What will your post be about?' />
-                                        <button class={dashboard.button1}>Send</button>
+                                    <div class={main.createPostGroup}> 
+                                    {
+                                            image?
+                                            <div className={main.postImageContainer}>
+                                                <img className={main.postImage} src={image} alt="User Post"/>
+                                            </div>:null
+                                        }
+                                        <input type="file" class={main.input} onChange= {fileSelectedHandler} name="image" placeholder='Upload Image' />
+                                        <input type="text" class={main.input} onChange= {(e) => {setDescription(e.target.value)}} name="description" placeholder='  What will your post be about?' />
+                                        <button class={main.button1}>Upload</button>
                                     </div>
                                     {
                                         errors.description?
-                                        <p class={dashboard.error}>{errors.description.message}</p>:null
+                                        <p class={main.error}>{errors.description.message}</p>:null
                                     }
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
-</body>
+            <div className={main.column}>
+            <MessageList socket={socket} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+            </div>
+        </div>
     )
 }
 

@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios'
 import { Link, useNavigate, useParams} from 'react-router-dom';
-import dashboard from './css/main.module.css'
+import main from './css/main.module.css'
+import Nav from './Nav';
+import MessageList from './MessageList';
 
-const Profile = () => { 
+const Profile = (props) => {
+    const {allPosts, setAllPosts, allUsers, setAllUsers, loggedInUser, setLoggedInUser, loggedInUserID, socket} = props
     const navigate = useNavigate()
     const id = window.localStorage.getItem('uuid')
-    const [user, setUser] = useState({
-        username: ''
-    })
+    const [user, setUser] = useState({})
     const [image, setImage] = useState('')
     const [updatedUsername, setUpdatedUsername] = useState()
 
@@ -67,78 +68,55 @@ const Profile = () => {
     }
 
     return (
-        <body class={dashboard.dashBody}>
+        <div className={main.row}>
             <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
-            <nav>
-                <div class={dashboard.logoName}>
-                    <div class={dashboard.logoImage}>
-                        <span class={dashboard.logo_name}>HIVE</span>
+            <div className={main.column}>
+                <Nav/>
+            </div>
+            <div className={main.column}>
+                <div className={main.topContent}>
+                    <div>
+                        <span className={main.pageTitleText}>Profile Page</span>
                     </div>
                 </div>
-                <div class={dashboard.menuItems}>
-                    <ul class={dashboard.menuLinks}> 
-                        <li class={dashboard.list}>
-                            <a href={'/dashboard'} class={dashboard.icon}>
-                                <i class="uil uil-estate"></i>
-                                <span class={dashboard.linkName}>Home</span>
-                            </a>
-                        </li>
-                        <li class={dashboard.list}>
-                            <a href={'/dashboard'} class={dashboard.icon}>
-                            <i class="uil uil-user"></i>
-                                <span class={dashboard.linkName}>My posts</span>
-                            </a>
-                        </li>
-                        <li class={dashboard.list}>
-                            <a href={'/post/create'} class={dashboard.icon}>
-                                <i class="uil uil-plus-circle"></i>
-                                <span class={dashboard.linkName}>Create Post</span>
-                            </a>
-                        </li>
-                    </ul>
-                    <ul class={dashboard.logoutMod}>
-                        <li class={dashboard.list}>
-                            <a class={dashboard.icon}>
-                                <i class="uil uil-signout"></i>
-                                <span class={dashboard.linkName} onClick={logout}>Logout</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </nav>
-
-            <section class={dashboard.dashboard}>
-                <div class={dashboard.dashContent}>
-                    <div class={dashboard.overview}>
-                        <div class={dashboard.title}>
-                        <i class="uil uil-user" id={dashboard.dashIcon}></i>
-                            <span class={dashboard.text}>{user.username}'s Profile</span>
-                        </div>
-
-                        <div class={dashboard.container}>
-                            <div class={dashboard.post}>
-                                <form onSubmit={submitHandler}>
-                                    <div class={dashboard.sendComment}>
-                                            <label for="username" class={dashboard.inputLabel}>Username:</label>
-                                            <input type="text" name="username" onChange={handleInputChange} class={dashboard.input} placeholder={user.username}/>
-                                    </div>
-                                    <div class={dashboard.sendComment}>
-                                            <label for="image" class={dashboard.inputLabel}>Profile Picture:</label>
-                                            <input type="file" class={dashboard.input} onChange={fileSelectedHandler} name="image" placeholder='Upload Image' />
-                                    </div>
-                                        
-                                    <button type="submit" class={dashboard.button1}>Update Profile</button>
-                                    </form>
-                                    {
-                                        user.image? 
-                                        <img src={user.image}/>:null
-                                    }
+                <div className={main.bottomContent}>
+                    <div className={main.container}>
+                        <div className={main.containerHeading}>
+                            <div className={main.usernameWithProfilePicture}>
+                                <img src={user.image} class={main.profilePicture}/>
+                                <h6 className={main.profilePageUsername} >{user.username}</h6>
                             </div>
                         </div>
+                        <div className={main.containerContent}>
+                            <form onSubmit={submitHandler}>
+                                <div className={main.profilePageInputGroup}>
+                                    <div className={main.profilePageLabels}>
+                                        <label for="username" class={main.inputLabel}>Username</label>
+                                        <label for="image" class={main.inputLabel}>Picture</label>
+                                    </div>
+                                    <div className={main.profilePageInputs}>
+                                        <input type="text" name="username" onChange={handleInputChange} class={main.input} placeholder={user.username}/>
+                                        <input type="file" class={main.input} id="choose-file" onChange={fileSelectedHandler} name="image" className={main.input} placeholder='Upload Image' />
+                                    </div>
+                                </div>
+                                <div className={main.profilePageImageDiv}>
+                                    {
+                                        user.image? 
+                                        <img className={main.profilePageDisplayImage} src={user.image}/>:null
+                                    }
+                                </div>
+                                <div className={main.profilePageSubmitDiv}>
+                                    <button type="submit" class={main.chatSendBtn}>Apply Changes</button>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
-            </section>
-        </body>
+            </div>
+            <div className={main.column}>
+                <MessageList socket={socket} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+            </div>
+        </div>
     )
 }
 

@@ -3,8 +3,10 @@ import axios from 'axios'
 import Nav from './Nav'
 import main from './css/main.module.css'
 import {Link, useParams,useNavigate} from 'react-router-dom'
+import MessageList from './MessageList'
 
 const ViewUserProfile = (props) => {
+    const {allPosts, setAllPosts, allUsers, setAllUsers, loggedInUser, setLoggedInUser, socket, loggedInUserID} = props
     const [user, setUser] = useState({})
     const [userFollowers, setUserFollowers] = useState([])
     const [userFollowing, setUserFollowing] = useState([])
@@ -12,7 +14,6 @@ const ViewUserProfile = (props) => {
     const [userPosts, setUserPosts] = useState([])
     const sortedByRecentPost = userPosts.map((post) => post).reverse()
     const navigate = useNavigate()
-    const loggedInUserID = window.localStorage.getItem('uuid')
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/loggedInUser/${id}`)
@@ -110,50 +111,65 @@ const ViewUserProfile = (props) => {
     }
 
     return(
-        <body>
+        <div class={main.row}>
             <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
-            <Nav/>
-            <div className={main.contentBackground}>
+            <div className={main.column}>
+                <Nav/>
+            </div>
+            <div className={main.column}>
                 <div className={main.topContent}>
-                    <div className={main.pageTitle2}>
-                        <div>
-                            <img className={main.profilePicture} src={user.image}/>
-                            <span className={main.text}>{user.username}</span>
-                        </div>
-                        <div className={main.followContainer}>
-                            {
-                                user._id == window.localStorage.getItem('uuid')? null: findFollowers(user._id).length? 
-                                <form onSubmit={unfollowHandler}><button>followed</button></form>:<form onSubmit={followHandler}><button>follow</button></form>
-                            }
-                            <Link to={`/profile/view/followers/${user._id}`}><p>followers {findFollowers(user._id).length}</p></Link>
-                            <p>following {findFollowing(user._id).length}</p>
-                        </div>
+                    <div>
+                        <span className={main.pageTitleText}>{user.username}'s Profile</span>
                     </div>
                 </div>
-                <div className={main.bottomContentViewProfile}>
-                {
-                        sortedByRecentPost?.map((post) => (
-
-                            <div className={main.containerViewProfile} key={post._id}>
-                                <div className={main.containerHeading}>
-                                    <h2 className={main.username}>{user.username}</h2>
-                                </div>
-                                <div className={main.containerContent}>
-                                    <div className={main.post_image_container}>
-                                        {
-                                            post.image?
-                                            <img className={main.post_image} src={post.image} alt="User Post"/>:null
-                                        }
-                                    </div>
-                                    <p>{post.description}</p>
-                                </div>
+                <div className={main.bottomContent}>
+                    <div className={main.container}>
+                        <div className={main.viewUserInfoContainer}>
+                            <div className={main.profileTagContainer}>
+                                <img className={main.profilePicture} src={user.image}/>
+                                <span className={main.text}>{user.username}</span>
                             </div>
-                            
+                            <div className={main.profileTagInfo}>
+                                <Link className={main.Link} to={`/profile/view/followers/${user._id}`}><p>followers {findFollowers(user._id).length}</p></Link>
+                                <Link className={main.Link} to={`/profile/view/following/${user._id}`}><p>following {findFollowing(user._id).length}</p></Link>
+                                {
+                                    user._id == window.localStorage.getItem('uuid')? null: findFollowers(user._id).length? 
+                                    <form onSubmit={unfollowHandler}><button>followed</button></form>:<form onSubmit={followHandler}><button>follow</button></form>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    {
+                        sortedByRecentPost?.map((post) => (
+                            <Link to={`/post/view/${post._id}`}>
+                                <div className={main.container}>
+                                    <div className={main.containerHeading}>
+                                            <div className={main.usernameWithProfilePicture}>
+                                                <img className={main.profilePicture} src={user.image}/>
+                                                <h6 className={main.username}>{user.username}</h6>
+                                            </div>
+                                    </div>
+                                    <div className={main.containerContent}>
+                                        <div className={main.postImageContainer}>
+                                            {
+                                                post.image?
+                                                <img className={main.postImage} src={post.image} alt="User Post"/>:null
+                                            }
+                                        </div>
+                                        <div>
+                                            <p className={main.postDescription}>{post.description}</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
                         ))
                     }
                 </div>
             </div>
-        </body>
+            <div className={main.column}>
+                <MessageList socket={socket} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+            </div>
+        </div>
     )
 }
 

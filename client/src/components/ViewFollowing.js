@@ -5,17 +5,17 @@ import main from './css/main.module.css'
 import {Link, useParams, useNavigate} from 'react-router-dom'
 import MessageList from './MessageList'
 
-const ViewFollowers = (props) => {
+const ViewFollowing = (props) => {
     const {allPosts, setAllPosts, allUsers, setAllUsers, loggedInUser, setLoggedInUser, loggedInUserID, socket} = props
     const [user, setUser] = useState({})
-    const [userFollowers, setUserFollowers] = useState([])
+    const [userFollowing, setUserFollowing] = useState([])
     const {id} = useParams()
     const navigate = useNavigate()
 
     useEffect(() => {
-        axios.get(`http://localhost:8000/api/getUserFollowers/${id}`)
+        axios.get(`http://localhost:8000/api/getUserFollowing/${id}`)
         .then((res) => {
-            setUserFollowers(res.data)
+            setUserFollowing(res.data)
             console.log("RES:", res)
         })
         .catch((err) => {
@@ -52,16 +52,16 @@ const ViewFollowers = (props) => {
         }
     }
 
-    const findFollowers = (e) => {
-        const followingUsers = []
+    const findFollowing = (e) => {
+        const followedUsers = []
 
-        userFollowers.map((following) => {
-            if(following.followed_user_id === e){
-                followingUsers.push(following)
+        userFollowing.map((following) => {
+            if(following.user_id === e){
+                followedUsers.push(following)
             }
         })
-        console.log("FOLLOWING USERS:", followingUsers)
-        return followingUsers
+        console.log("FOLLOWING USERS:", followedUsers)
+        return followedUsers
     }
 
     return(
@@ -76,12 +76,12 @@ const ViewFollowers = (props) => {
                 </div>
                 <div className={main.bottomContent}>
                     {
-                                    findFollowers(user._id).map((follower) => (
+                                    findFollowing(user._id).map((following) => (
                                         <div className={main.container}>
                                             <div className={main.viewUserInfoContainer}>
                                                 <div className={main.profileTagContainer}>
-                                                    <img className={main.profilePicture} src={findUserImage(follower.user_id)}/>
-                                                    <span className={main.text}>{findUserName(follower.user_id)}</span>
+                                                    <img className={main.profilePicture} src={findUserImage(following.followed_user_id)}/>
+                                                    <span className={main.text}>{findUserName(following.followed_user_id)}</span>
                                                 </div>
                                             </div>
                                         </div>
@@ -96,4 +96,4 @@ const ViewFollowers = (props) => {
     )
 }
 
-export default ViewFollowers;
+export default ViewFollowing;

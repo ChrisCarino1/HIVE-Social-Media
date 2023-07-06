@@ -181,5 +181,4 @@ const groupChatAdd = asyncHandler(async (req, res) => {
         }
         });
     
-
 module.exports = { accessChat, getChats, createGroupChat, editGroupChatName, groupChatAdd, removeUser};

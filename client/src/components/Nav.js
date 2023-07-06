@@ -44,12 +44,6 @@ const Nav = (props) => {
                         </a>
                     </li>
                     <li className={dashboard.list}>
-                        <a href={`/profile/`} className={dashboard.icon}>
-                        <i className="uil uil-comment-alt-dots"></i>
-                            <span className={dashboard.linkName}>My posts</span>
-                        </a>
-                    </li>
-                    <li className={dashboard.list}>
                         <a href={'/post/create'} className={dashboard.icon}>
                             <i className="uil uil-plus-circle"></i>
                             <span className={dashboard.linkName}>Create Post</span>
