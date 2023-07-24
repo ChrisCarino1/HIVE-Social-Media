@@ -195,13 +195,6 @@ a:hover .linkName {
     border-right: solid 2px var(--black-light-color);
 }
 
-.messageListUserHeading {
-    display: flex;
-    align-items: center;
-    margin: 5px;
-    background-color: var(--base-color);
-}
-
 .openChat{
     border: none;
     border-radius: 10px;
@@ -255,42 +248,228 @@ a:hover .linkName {
     /* flex-wrap: wrap; */
 }
   
-.messageDiv {
-    margin-bottom: 10px;
-    inline-size: 100%;
-    /* background-color: blue; */
-    display: flex;
-    flex-direction: column;
-    flex-wrap: wrap;
-  }
 
 .messageDiv p {
     margin: 0;
     padding: 5px;
     overflow: hidden;
   }
-  
+
+/* MESSAGE DASHBOARD CSS */
+
+.userSearchInput {
+    padding: 3px;
+    border-radius: 6px;
+    border: none;
+    cursor: pointer;
+    width: 98%;
+}
+
+.createChatBtn {
+    background-color: #fac042;
+    color: white;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 2px;
+    border: none;
+    border-radius: 6px;
+    width: 95%;
+}
+
+.column1 {
+    float:left;
+    width: 31%;
+    padding: 0px 10px 10px 10px;
+}
+
+.column2 {
+    float:left;
+    width: 20%;
+    height: 100vh;
+    border-right: solid 2px var(--black-light-color);
+    border-left: solid 2px var(--black-light-color);
+}
+
+.column3 {
+    float:left;
+    width: 33.33%;
+    padding: 0px 10px 10px 10px;
+    border-right: solid 2px var(--black-light-color);
+    height: 100vh;
+}
+
+.column3 img {
+    clip-path: circle();
+    width: 45px;
+    margin-right: 5px;
+}
+
+.column3 .topContent {
+    background-color: var(--base-color);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    margin: 30px 10px 0px 10px;
+    padding: 10px
+}
+
+.createChatContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.messageListContainer {
+    display: flex;
+    flex-direction: column;
+}
+
+.messageListContainer div img {
+    clip-path: circle();
+    width: 50px;
+    margin: 0px 10px;
+}
+
+.messageListContainer div div {
+    display: flex;
+    align-items: center;
+}
+
+.chat {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: white;
+    padding: 5px;
+}
+
+.chatActive {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    color: white;
+    padding: 5px;
+    background-color: var(--base-color);
+}
+
+.openChatTop {
+    display: flex;
+    align-items: center;
+}
+
+.pageTitleText2 {
+    margin: 10px;
+    font-weight: 600;
+    font-size: 30px;
+    color: white;
+}
+
+.pageTitleText3 {
+    margin: 10px;
+    font-weight: 600;
+    font-size: 22px;
+    color: white;
+}
+
+.loggedUserMessageDiv, .userMessageDiv {
+    overflow-wrap: break-word;
+    max-width: 49%;
+    width: 49%;
+    margin: 2px;
+    border-radius: 10px;
+}
+
+.loggedUserMessageDiv p, .userMessageDiv p {
+    margin: 3px;
+}
+
+.loggedUserMessageDiv{
+    color: white;
+    background-color: #147efb;
+    float: right;
+    clear: right;
+    margin-left: 100px;
+}
+
+.userMessageDiv{
+    color: white;
+    background-color: #313131;
+    float: left;
+    clear: left;
+}
+
+.messageDiv {
+    margin: 10px 0px;
+    display: block;
+    flex-direction: column;
+}
+
+.messagesContainer {
+    background-color: black;
+    margin: 0px 10px 10px 10px;
+    overflow-y: scroll;
+    height: 83%;
+    max-height: 83%;
+    border-left: solid 2px var(--black-light-color);
+    border-right: solid 2px var(--black-light-color);
+    border-bottom: solid 2px var(--black-light-color);
+}
+
 .messageInputGroup {
     display: flex;
     margin-top: 5px;
-  }
-  
+}
+
 .chatInput {
-    flex-grow: 1;
+    width: 100%;
+    margin: 5px 10px 10px 10px;
     padding: 5px;
     border: 1px solid #cccccc;
     border-radius: 5px;
-  }
-  
-.chatSendBtn {
-    padding: 5px 10px;
-    margin-left: 5px;
-    background-color: #007bff;
-    color: #ffffff;
-    border: none;
+}
+
+.profilePicture2 {
+    clip-path: circle();
+    width: 35px;
+    margin-right: 5px;
+    margin-left: 20px;
+}
+
+.messageListUsername2 {
+    font-size: 15px;
+    font-weight: 600;
+    margin: 5px;
+    color: white;
+}
+
+.messageListUserHeading {
+    display: flex;
+    align-items: center;
+    background-color:blue;
+    padding: 5px;
+    width: 100%;
+}
+
+.selectedUsersContainer {
+    display: flex;
+    flex: wrap;
+    width: 100%;
+}
+
+.selectedUser {
+    height: 25px;
+    color: white;
+    margin: 10px 0px 3px 10px;
+    background-color: var(--base-color);
+    padding: 3px;
     border-radius: 5px;
-    cursor: pointer;
-  }
+    
+}
+
+.createChatContainer {
+    width: 100%;
+    background-color: purple;
+}
 
 /* GROUP CHAT CSS */
 

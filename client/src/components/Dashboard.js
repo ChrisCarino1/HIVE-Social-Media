@@ -71,6 +71,7 @@ const Dashboard = (props) => {
                                                 </div>:null
                                             }
                                         <div>
+                                            
                                             <p className={main.postDescription}>{post.description}</p>
                                         </div>
                                     </div>

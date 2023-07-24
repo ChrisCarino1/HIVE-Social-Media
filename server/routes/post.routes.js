@@ -9,4 +9,5 @@ module.exports = app => {
     app.get('/api/post/view/:id', PostController.getOnePost)
     app.put('/api/post/update/:id', authenticate, PostController.updatePost)
     app.delete('/api/post/delete/:id', PostController.deletePost)
+    app.post('/api/post/like/:id', authenticate, PostController.like);
 }

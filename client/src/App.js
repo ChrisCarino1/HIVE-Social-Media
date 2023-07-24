@@ -15,6 +15,7 @@ import Profile from './components/MyUserProfile'
 import ViewUserProfile from './components/ViewUserProfile'
 import ViewFollowers from './components/ViewFollowers'
 import ViewFollowing from './components/ViewFollowing'
+import MessageDashboard from './components/MessageDashboard'
 
 function App() {
   const loggedInUserID = window.localStorage.getItem('uuid')
@@ -87,6 +88,7 @@ useEffect(() => {
           <Route path='/profile/:id' element={<ViewUserProfile socket={socket} loggedInUserID={loggedInUserID} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>}/>
           <Route path='/profile/view/followers/:id' element={<ViewFollowers allPosts={allPosts} setAllPosts={setAllPosts} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} socket={socket}/>}/>
           <Route path='/profile/view/following/:id' element={<ViewFollowing allPosts={allPosts} setAllPosts={setAllPosts} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser} socket={socket}/>}/>
+          <Route path='/messages' element={<MessageDashboard socket={socket} allPosts={allPosts} setAllPosts={setAllPosts} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>}/>
         </Routes>
       </UserContext.Provider>
     </div>

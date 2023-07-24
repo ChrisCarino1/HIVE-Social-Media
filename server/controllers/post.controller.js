@@ -90,5 +90,14 @@ module.exports = {
         catch(err){
             res.status(500).json(err)
         }
+    },
+
+    like: (req, res) => {
+        try {
+            console.log(req)
+        }
+        catch(err){
+            res.status(500).json(err)
+        }
     }
 }

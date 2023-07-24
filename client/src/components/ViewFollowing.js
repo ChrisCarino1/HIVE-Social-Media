@@ -72,11 +72,12 @@ const ViewFollowing = (props) => {
             </div>
             <div className={main.column}>
                 <div className={main.topContent}>
-                    <span className={main.pageTitleText}>{user.username}'s Followers</span>
+                    <span className={main.pageTitleText}>{user.username}'s Following</span>
                 </div>
                 <div className={main.bottomContent}>
                     {
                                     findFollowing(user._id).map((following) => (
+                                        <Link className={main.profileLink}to={`/profile/${following.followed_user_id}`}>
                                         <div className={main.container}>
                                             <div className={main.viewUserInfoContainer}>
                                                 <div className={main.profileTagContainer}>
@@ -85,6 +86,7 @@ const ViewFollowing = (props) => {
                                                 </div>
                                             </div>
                                         </div>
+                                        </Link>
                                     ))
                     }
                 </div>

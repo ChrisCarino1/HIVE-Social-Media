@@ -5,7 +5,8 @@ const ChatSchema = mongoose.Schema(
         chatName: {
             type: String,
             trim: true,
-            required: [true, 'Chat name required']
+            required: false,
+            default: "Group Chat"
         },
         isGroupChat: {
             type: Boolean,
@@ -24,6 +25,10 @@ const ChatSchema = mongoose.Schema(
             type: mongoose.Schema.Types.ObjectId,
             ref: 'User',
         },
+        groupChatImage: { 
+            type: String,
+            default: 'https://icon-library.com/images/anonymous-avatar-icon/anonymous-avatar-icon-25.jpg'
+        }
     },
     {timestamps: true}
 );
