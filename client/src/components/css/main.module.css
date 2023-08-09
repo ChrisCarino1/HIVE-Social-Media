@@ -1,21 +1,11 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
 
 :root {
-    --primary-color: #0E4BF1;
-    --panel-color: #FFF;
-    --text-color: #000;
-    --black-light-color: #707070;
-    --border-color: #a3a3a3;
-    --toggle-color: #ddd;
-    --box1-color: #4DA3FF;
-    --box2-color: #FFE6AC;
-    --box3-color: #E7D1FC;
-    --title-icon-color: #fff;
+    --primary-color: #1DA1F2;
+    --border-color:#243447;
+    --backdrop-color: #090e13;
+    --hover-color: #111a24;
     --base-color: #fac042;
-
-    --tran-05: all 0.5 ease;
-    --tran-03: all 0.3 ease;
-    --tran-05: all 0.2s ease;
 }
 
 *{
@@ -28,14 +18,8 @@
 
 /* LAYOUT CSS */
 
-/* body{
-    background-color: green;
-    display: flex;
-    justify-content: center;
-} */
-
 .row{
-    background-color: black;
+    background-color: var(--backdrop-color);
     min-height: 100vh;
 }
 
@@ -63,40 +47,67 @@
     padding: 0px 10px 10px 10px;
 }
 
-/* PAGE ITEMS CSS */
-
-/* .pageTitleContainer {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-    background-color: green;
+.rightColumn {
+    position: fixed;
+    overflow: hidden;
+    right: 300px;
+    height: 100vh;
+    padding: 10px 14px;
+    width: 300px;
+    background-color: var(--backdrop-color);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
+    border-left: solid 2px var(--border-color);
+    border-right: solid 2px var(--border-color);
 }
 
-.pageTitle {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-} */
+/* PAGE ITEMS CSS */
 
-.pageTitleText {
+.pageTitleText, .feedFilter, .feedFilter2 {
     margin-right: 10px;
     font-weight: 600;
     font-size: 30px;
     color: white;
 }
 
+.feedFilter2 {
+    border-left: 1px solid var(--border-color);
+    border-right: 1px solid var(--border-color);
+}
+
+.feedButtonContainer .feedFilter:hover {
+    color: var(--base-color);
+    background-color: var(--hover-color);
+    border: 2px solid var(--hover-color);
+    border-radius: 25px;
+    width: 100%;
+    padding: 8px;
+}
+
+.feedFilterActive {
+    margin-right: 10px;
+    font-weight: 600;
+    font-size: 30px;
+    color: var(--base-color);
+}
+
+.error {
+    color: red;
+    margin: 5px;
+}
+
 /* NAV CSS */
 
-nav {
+.nav {
     position: fixed;
+    overflow: hidden;
     left: 350px;
     height: 100vh;
     padding: 10px 14px;
     width: 250px;
-    background-color: black;
+    background-color:var(--backdrop-color);
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    border-right: solid 2px var(--black-light-color);
-    border-left: solid 2px var(--black-light-color);
+    border-right: solid 2px var(--border-color);
+    border-left: solid 2px var(--border-color);
 }
 
 
@@ -131,6 +142,7 @@ nav {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    position: relative;
 }
 
 .icon {
@@ -138,32 +150,31 @@ nav {
     height: 50px;
     display: flex;
     align-items: center;
-    position: relative;
 }
 
 i {
     font-size: 24px;
-    min-width: 45px;
+    min-width: 30px;
     height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--black-light-color)
+    color: var(--border-color)
 }
 
 .list {
     list-style: none;
+    margin-left: -2em;
 }
 
 .linkName {
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 400;
-    color: var(--black-light-color);
+    color: var(--border-color);
 }
 
 
 a:hover:before {
-    position: absolute;
     left: -7px;
     height: 5px;
     width: 5px;
@@ -181,79 +192,25 @@ a:hover .linkName {
     text-decoration: none;
 }
 
-/* MESSAGE LIST CSS */
-
-.messageList {
-    position: fixed;
-    right: 300px;
-    height: 100vh;
-    padding: 10px 14px;
-    width: 300px;
-    background-color: black;
-    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
-    border-left: solid 2px var(--black-light-color);
-    border-right: solid 2px var(--black-light-color);
+.menuLinks {
+    display: flex;
+    flex-direction: column;
+    align-self: center;
 }
 
-.openChat{
-    border: none;
-    border-radius: 10px;
-    background-color: black;
-    width: 100%;
-}
-
-.openChat:hover{
-    background-color: var(--base-color);
-}
-
-/* .loggedUserMessage {
-    color: white;
-    background-color: blue;
-    text-align: right;
-    border-radius: 6px;
-    width: fit-content;
+.menuLinks li:hover, .logoutMod li:hover{
+    background-color: var(--hover-color);
+    border: 2px solid var(--hover-color);
+    border-radius: 25px;
     padding: 3px;
 }
 
-.userMessage {
-    color: white;
-} */
-
-.messageListUsername {
-    font-size: 20px;
-    font-weight: 600;
-    margin: 5px;
-    color: white;
-}
-
-.chatBox {
-    background-color: var(--base-color);
-    padding: 10px;
-    border-radius: 5px;
-  }
-
-.messageContainer {
-    margin-bottom: 10px;
-  }
-
-.topMessageContainer {
-    max-height: 200px;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 10px;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 5px;
+.logoutMod {
+    display: flex;
     flex-direction: column;
-    /* flex-wrap: wrap; */
+    align-self: center;
+    margin-bottom: 25px;
 }
-  
-
-.messageDiv p {
-    margin: 0;
-    padding: 5px;
-    overflow: hidden;
-  }
 
 /* MESSAGE DASHBOARD CSS */
 
@@ -265,7 +222,7 @@ a:hover .linkName {
     width: 98%;
 }
 
-.createChatBtn {
+.createChatBtn, .createChatBtn2 {
     background-color: #fac042;
     color: white;
     font-size: 15px;
@@ -273,7 +230,7 @@ a:hover .linkName {
     padding: 2px;
     border: none;
     border-radius: 6px;
-    width: 95%;
+    width: 100%;
 }
 
 .column1 {
@@ -286,15 +243,15 @@ a:hover .linkName {
     float:left;
     width: 20%;
     height: 100vh;
-    border-right: solid 2px var(--black-light-color);
-    border-left: solid 2px var(--black-light-color);
+    border-right: solid 2px var(--border-color);
+    border-left: solid 2px var(--border-color);
 }
 
 .column3 {
     float:left;
     width: 33.33%;
     padding: 0px 10px 10px 10px;
-    border-right: solid 2px var(--black-light-color);
+    border-right: solid 2px var(--border-color);
     height: 100vh;
 }
 
@@ -352,9 +309,25 @@ a:hover .linkName {
     background-color: var(--base-color);
 }
 
-.openChatTop {
+.openChatTop, .openChatTopGC {
     display: flex;
     align-items: center;
+    width: 100%;
+}
+
+.openChatTopGC {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.openChatTopGC .one {
+    display: flex;
+    flex-direction: row;
+}
+
+.openChatTopGC .two i {
+    color: var(--border-color);
 }
 
 .pageTitleText2 {
@@ -385,7 +358,7 @@ a:hover .linkName {
 
 .loggedUserMessageDiv{
     color: white;
-    background-color: #147efb;
+    background-color: var(--primary-color);
     float: right;
     clear: right;
     margin-left: 100px;
@@ -393,7 +366,7 @@ a:hover .linkName {
 
 .userMessageDiv{
     color: white;
-    background-color: #313131;
+    background-color: 	#141d26;
     float: left;
     clear: left;
 }
@@ -405,14 +378,14 @@ a:hover .linkName {
 }
 
 .messagesContainer {
-    background-color: black;
+    background-color: var(--backdrop-color);
     margin: 0px 10px 10px 10px;
     overflow-y: scroll;
     height: 83%;
     max-height: 83%;
-    border-left: solid 2px var(--black-light-color);
-    border-right: solid 2px var(--black-light-color);
-    border-bottom: solid 2px var(--black-light-color);
+    border-left: solid 2px var(--border-color);
+    border-right: solid 2px var(--border-color);
+    border-bottom: solid 2px var(--border-color);
 }
 
 .messageInputGroup {
@@ -442,12 +415,15 @@ a:hover .linkName {
     color: white;
 }
 
-.messageListUserHeading {
+.messageListUserHeading, .messageListUserHeading2 {
     display: flex;
     align-items: center;
-    background-color:blue;
     padding: 5px;
     width: 100%;
+}
+
+.messageListUserHeading2 {
+    background-color: var(--border-color);
 }
 
 .selectedUsersContainer {
@@ -463,12 +439,100 @@ a:hover .linkName {
     background-color: var(--base-color);
     padding: 3px;
     border-radius: 5px;
-    
 }
 
 .createChatContainer {
     width: 100%;
-    background-color: purple;
+}
+
+.createChatContainer .createChatBtn2 {
+    width: 95%;
+}
+
+.createChatForm {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.createChatForm .createChatDiv1 {
+    width: 95%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.createChatDiv2 {
+    margin: 10px;
+    width: 95%;
+}
+
+.createChatForm input {
+    width: 100%;
+}
+
+.settingsLabels {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+.settingsFormControl {
+    width: 50%;
+
+}
+
+.settingsFormControl input {
+    width: 100%;
+    border-radius: 20px;
+    border: none;
+    margin: 12px 0px;
+}
+
+.messageSettingsContainer, .messageSettingsContainer2 {
+    margin: 10px;
+    display: flex;
+    flex-wrap: wrap;
+    background-color: var(--border-color);
+    padding: 5px;
+    height: 180px;
+    border-radius: 25px;
+}
+
+.messageSettingsContainer2 {
+    height: 100%;
+}
+
+.messageSettingsContainer div label {
+    color: white;
+    font-weight: 500;
+}
+
+.messageSettingsContainer div {
+    margin: 2px;
+}
+
+.settingsSubmit {
+    display: flex;
+    justify-content: flex-end;
+    width: 100%;
+}
+
+.settingsSubmit button {
+    height: 75%;
+    width: 100%;
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: rgb(49, 240, 49);
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.fileInput {
+    display: none;
 }
 
 /* GROUP CHAT CSS */
@@ -517,6 +581,16 @@ a:hover .linkName {
     align-items: center;
 }
 
+.usernameWithProfilePicture button {
+    border: none;
+    background: none;
+    color: rgb(26, 25, 25);
+}
+
+.usernameWithProfilePicture button:hover {
+color: red;
+}
+
 .postImageContainer img {
     height: auto;
     max-width: 100%;
@@ -529,8 +603,8 @@ a:hover .linkName {
 .container{
     width: 100%;
     margin-top: 20px;
-    background: black;
-    border: solid 2px var(--black-light-color);
+    background: var(--backdrop-color);
+    border: solid 2px var(--border-color);
     border-radius: 10px;
     box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
 }
@@ -540,15 +614,25 @@ a:hover .linkName {
     margin: 5px;
 }
 
+.containerContentBottom {
+    margin: 15px 15px 0px 15px;
+}
+
 .containerHeading {
     margin: 15px 15px 0px 15px;
 }
 
 .postDescription {
-    margin-top: 10px;
     color: white;
 }
 
+.postLikes {
+    display: flex;
+}
+
+.postLikes i {
+    color: red;
+}
 
 /* Profile Page CSS */
 
@@ -586,8 +670,18 @@ a:hover .linkName {
 
 .profilePageSubmitDiv {
     display: flex;
-    justify-content: flex-end;
+    justify-content: flex-start;
     margin: 20px 35px;
+}
+
+.profilePageSubmitDiv button {
+    padding: 5px 10px;
+    margin-left: 5px;
+    background-color: rgb(49, 240, 49);
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
 }
 
 .inputLabel {
@@ -641,6 +735,15 @@ a:hover .linkName {
         border: none;
         border-radius: 5px;
         cursor: pointer;
+}
+
+.editProfileBtn {
+    color: var(--base-color);
+    text-decoration: none;
+}
+
+.editProfileBtn:hover {
+    color: #eb9526;
 }
 
 /* POST FORM CSS */

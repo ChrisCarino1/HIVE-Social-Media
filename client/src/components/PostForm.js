@@ -3,7 +3,7 @@ import axios from 'axios'
 import {useNavigate} from 'react-router-dom'
 import main from './css/main.module.css'
 import Nav from './Nav'
-import MessageList from './MessageList'
+import RightColumn from './RightColumn';
 
 
 const PostForm = (props) => {
@@ -24,8 +24,6 @@ const PostForm = (props) => {
             setImage(res.data.secure_url)
         })
         .catch(err => console.log(err))
-
-
     }
 
     const submitHandler = (e) => {
@@ -94,7 +92,7 @@ const PostForm = (props) => {
                 </div>
             </div>
             <div className={main.column}>
-            <MessageList socket={socket} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+            <RightColumn/>
             </div>
         </div>
     )

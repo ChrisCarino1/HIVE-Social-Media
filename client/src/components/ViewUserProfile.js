@@ -3,10 +3,11 @@ import axios from 'axios'
 import Nav from './Nav'
 import main from './css/main.module.css'
 import {Link, useParams,useNavigate} from 'react-router-dom'
-import MessageList from './MessageList'
+import RightColumn from './RightColumn'
 
 const ViewUserProfile = (props) => {
     const {allPosts, setAllPosts, allUsers, setAllUsers, loggedInUser, setLoggedInUser, socket, loggedInUserID} = props
+    const [needReload, setNeedReload] = useState(false)
     const [user, setUser] = useState({})
     const [userFollowers, setUserFollowers] = useState([])
     const [userFollowing, setUserFollowing] = useState([])
@@ -37,7 +38,7 @@ const ViewUserProfile = (props) => {
         .catch((err) => {
             console.log(err)
         })
-    }, [])
+    }, [needReload])
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/getUserFollowing/${id}`)
@@ -48,7 +49,7 @@ const ViewUserProfile = (props) => {
         .catch((err) => {
             console.log(err)
         })
-    }, [])
+    }, [needReload])
 
     useEffect(() => {
         axios.get(`http://localhost:8000/api/post/byUser/${id}`)
@@ -60,14 +61,14 @@ const ViewUserProfile = (props) => {
             console.log(err)
             navigate('/dashboard')
         })
-    }, [])
+    }, [needReload])
 
     const followHandler = (e) => {
         e.preventDefault();
         axios.post(`http://localhost:8000/api/follow/${id}`, {loggedInUserID, id}, {withCredentials:true})
         .then((res) => {
             console.log(res)
-            window.location.reload();
+            setNeedReload(!needReload)
         })
         .catch((err) => {
             console.log("ERROR:", err)
@@ -79,7 +80,7 @@ const ViewUserProfile = (props) => {
         axios.post(`http://localhost:8000/api/unfollow/${id}`, {loggedInUserID, id}, {withCredentials:true})
         .then((res) => {
             console.log(res)
-            window.location.reload();
+            setNeedReload(!needReload)
         })
         .catch((err) => {
             console.log("ERROR:", err)
@@ -110,6 +111,40 @@ const ViewUserProfile = (props) => {
         return followedUsers
     }
 
+    const handleLike = async (postId) => {
+        const foundPost = userPosts.find((post) => {
+            return post._id == postId
+        })
+        console.log("foundPost", foundPost)
+        const checkLike = foundPost.likes.find((like) => {
+            if (like == loggedInUserID) {
+                return true
+            }
+            return false
+        })
+        console.log("checkLike", checkLike)
+        if (checkLike) {
+            try {
+                const { data } = await axios.post(
+                `http://localhost:8000/api/post/unlike/${postId}`, {} , {withCredentials:true});
+            console.log("data", data)
+            setNeedReload(!needReload)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+        else {
+            try {
+                const { data } = await axios.post(
+                `http://localhost:8000/api/post/like/${postId}`, {} , {withCredentials:true});
+            console.log("data", data)
+            setNeedReload(!needReload)
+            } catch (err) {
+                console.log(err)
+            }
+        }
+    }
+
     return(
         <div class={main.row}>
             <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
@@ -133,7 +168,7 @@ const ViewUserProfile = (props) => {
                                 <Link className={main.Link} to={`/profile/view/followers/${user._id}`}><p>followers {findFollowers(user._id).length}</p></Link>
                                 <Link className={main.Link} to={`/profile/view/following/${user._id}`}><p>following {findFollowing(user._id).length}</p></Link>
                                 {
-                                    user._id == window.localStorage.getItem('uuid')? null: findFollowers(user._id).length? 
+                                    user._id == window.localStorage.getItem('uuid')? <Link className={main.editProfileBtn} to={'/profile'}>Edit Profile</Link>: findFollowers(user._id).length? 
                                     <form onSubmit={unfollowHandler}><button>followed</button></form>:<form onSubmit={followHandler}><button>follow</button></form>
                                 }
                             </div>
@@ -141,33 +176,37 @@ const ViewUserProfile = (props) => {
                     </div>
                     {
                         sortedByRecentPost?.map((post) => (
-                            <Link to={`/post/view/${post._id}`}>
                                 <div className={main.container}>
-                                    <div className={main.containerHeading}>
-                                            <div className={main.usernameWithProfilePicture}>
-                                                <img className={main.profilePicture} src={user.image}/>
-                                                <h6 className={main.username}>{user.username}</h6>
-                                            </div>
-                                    </div>
-                                    <div className={main.containerContent}>
-                                        <div className={main.postImageContainer}>
-                                            {
-                                                post.image?
-                                                <img className={main.postImage} src={post.image} alt="User Post"/>:null
-                                            }
+                                    <Link to={`/post/view/${post._id}`}>
+                                        <div className={main.containerHeading}>
+                                                <div className={main.usernameWithProfilePicture}>
+                                                    <img className={main.profilePicture} src={user.image}/>
+                                                    <h6 className={main.username}>{user.username}</h6>
+                                                </div>
                                         </div>
-                                        <div>
-                                            <p className={main.postDescription}>{post.description}</p>
+                                        <div className={main.containerContent}>
+                                            <div className={main.postImageContainer}>
+                                                {
+                                                    post.image?
+                                                    <img className={main.postImage} src={post.image} alt="User Post"/>:null
+                                                }
+                                            </div>
+                                        </div>
+                                    </Link>
+                                    <div className={main.containerContentBottom}>
+                                        <p className={main.postDescription}>{post.description}</p>
+                                        <div className={main.postLikes} onClick={() => {handleLike(post._id)}}>
+                                            {post.likes.find((like) => { return like == loggedInUserID})? <i class="icon-heart"/>:<i class="icon-heart-empty"/>}
+                                            <p>{post.likes.length}</p>
                                         </div>
                                     </div>
                                 </div>
-                            </Link>
                         ))
                     }
                 </div>
             </div>
             <div className={main.column}>
-                <MessageList socket={socket} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+                <RightColumn/>
             </div>
         </div>
     )

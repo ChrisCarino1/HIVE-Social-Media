@@ -3,7 +3,7 @@ import axios from 'axios'
 import Nav from './Nav'
 import main from './css/main.module.css'
 import {Link, useParams, useNavigate} from 'react-router-dom'
-import MessageList from './MessageList'
+import RightColumn from './RightColumn';
 
 const ViewFollowers = (props) => {
     const {allPosts, setAllPosts, allUsers, setAllUsers, loggedInUser, setLoggedInUser, loggedInUserID, socket} = props
@@ -92,7 +92,7 @@ const ViewFollowers = (props) => {
                 </div>
             </div>
             <div className={main.column}>
-                <MessageList socket={socket} allUsers={allUsers} setAllUsers={setAllUsers} loggedInUser={loggedInUser} setLoggedInUser={setLoggedInUser}/>
+                <RightColumn/>
             </div>
         </div>
     )

@@ -15,20 +15,6 @@ module.exports = {
             console.log("newFollow", newFollow)
             res.json(newFollow)
         }
-            // const { id } = req.body
-            // const decodedToken = jwt.verify(req.cookies.userToken, secret);
-            // const followerID = decodedToken._id
-
-            // var newFollow = {
-            //     user_id: User.findOne({_id: followerID}).populate("_id firstName lastName image username"),
-            //     followed_user_id: User.findOne({_id: id}).populate("_id firstName lastName image username")
-            // }
-
-            // try{
-            //     var follow = await Follow.create(newFollow)
-
-            //     res.json(follow)
-            // } 
         catch(err){
             res.status(400).json({error:err})
         }
@@ -60,14 +46,14 @@ module.exports = {
         })
     },
 
-    getUserFollowing: (req, res) => {
-        const user_id = req.params.id
-        Follow.find({user_id: user_id})
-        .then((allFollowing) => {
-            res.json(allFollowing)
-        })
-        .catch((err) => {
-            res.status(500).json(err)
-        })
+    getUserFollowing: async (req, res) => {
+        try {
+            const user_id = req.params.id
+            const following = await Follow.find({user_id: user_id})
+            res.json(following)
+        }
+        catch(err){
+            res.status(400).json({error:err})
+        }
     }
 }

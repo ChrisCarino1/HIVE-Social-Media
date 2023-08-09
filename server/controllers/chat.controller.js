@@ -81,7 +81,7 @@ const createGroupChat = asyncHandler(async (req, res) => {
     const loggedInUserId = decodedToken._id
 
     if (!req.body.users || !req.body.name) {
-        return res.status(400).send({ message: "Please Fill all the feilds" });
+        return res.status(400).send({ message: "Please Fill all the fields" });
     }
     
     var users = JSON.parse(req.body.users);
@@ -115,12 +115,11 @@ const createGroupChat = asyncHandler(async (req, res) => {
     });
 
 const editGroupChatName = asyncHandler(async (req, res) => {
-        const { chatId, chatName } = req.body;
-    
+        const { chatId, name } = req.body;
         const updatedChat = await Chat.findByIdAndUpdate(
         chatId,
         {
-            chatName: chatName,
+            chatName: name,
         },
         {
             new: true,
@@ -128,7 +127,6 @@ const editGroupChatName = asyncHandler(async (req, res) => {
         )
         .populate("users", "-password")
         .populate("groupAdmin", "-password");
-    
         if (!updatedChat) {
         res.status(404);
         throw new Error("Chat Not Found");
@@ -136,6 +134,29 @@ const editGroupChatName = asyncHandler(async (req, res) => {
         res.json(updatedChat);
         }
     });
+
+const editGroupChatImage = asyncHandler(async (req, res) => {
+    const { chatId, img } = req.body;
+    console.log(chatId, img)
+    const updatedChat = await Chat.findByIdAndUpdate(
+    chatId,
+    {
+        groupChatImage: img,
+    },
+    {
+        new: true,
+    }
+    )
+    .populate("users", "-password")
+    .populate("groupAdmin", "-password");
+
+    if (!updatedChat) {
+    res.status(404);
+    throw new Error("Chat Not Found");
+    } else {
+    res.json(updatedChat);
+    }
+});
 
 const groupChatAdd = asyncHandler(async (req, res) => {
     const { chatId, userId } = req.body;    
@@ -181,4 +202,4 @@ const groupChatAdd = asyncHandler(async (req, res) => {
         }
         });
     
-module.exports = { accessChat, getChats, createGroupChat, editGroupChatName, groupChatAdd, removeUser};
+module.exports = { accessChat, getChats, createGroupChat, editGroupChatName, editGroupChatImage, groupChatAdd, removeUser};

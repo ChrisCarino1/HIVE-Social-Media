@@ -7,7 +7,7 @@ import dashboard from './css/main.module.css'
 
 const Nav = (props) => {
     const navigate = useNavigate()
-    const loggedInUser = useContext(UserContext)
+    const loggedInUserID = window.localStorage.getItem('uuid')
 
     const logout = () => {
         axios.post('http://localhost:8000/api/logout', {} , {withCredentials:true})
@@ -22,8 +22,10 @@ const Nav = (props) => {
     }
 
     return (
-        <nav>
+        <section className={dashboard.nav}>
             <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+            {/* <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"/> */}
+            <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet"></link>
             <div className={dashboard.logoName}>
                 <div className={dashboard.logoImage}>
                     <span className={dashboard.logo_name}>HIVE</span>
@@ -38,7 +40,7 @@ const Nav = (props) => {
                         </a>
                     </li>
                     <li className={dashboard.list}>
-                        <a href={'/profile'} className={dashboard.icon}>
+                        <a href={`/profile/${loggedInUserID}`} className={dashboard.icon}>
                         <i className="uil uil-user"></i>
                             <span className={dashboard.linkName}>Profile</span>
                         </a>
@@ -46,13 +48,13 @@ const Nav = (props) => {
                     <li className={dashboard.list}>
                         <a href={'/messages'} className={dashboard.icon}>
                         <i className="uil uil-envelope"></i>
-                            <span className={dashboard.linkName}>Messages</span>
+                            <span className={dashboard.linkName}>Message</span>
                         </a>
                     </li>
                     <li className={dashboard.list}>
                         <a href={'/post/create'} className={dashboard.icon}>
                             <i className="uil uil-plus-circle"></i>
-                            <span className={dashboard.linkName}>Create Post</span>
+                            <span className={dashboard.linkName}>Post</span>
                         </a>
                     </li>
                 </ul>
@@ -65,7 +67,7 @@ const Nav = (props) => {
                     </li>
                 </ul>
             </div>
-        </nav>
+        </section>
 )}
 
 export default Nav;

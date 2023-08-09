@@ -1,6 +1,7 @@
 const Post = require('../models/post.model')
 const Comment = require('../models/comment.model')
 const jwt = require('jsonwebtoken')
+const secret = process.env.SECRET_KEY;
 
 module.exports = {
 
@@ -92,12 +93,49 @@ module.exports = {
         }
     },
 
-    like: (req, res) => {
-        try {
-            console.log(req)
+    like: async (req, res) => {
+        const decodedToken = jwt.verify(req.cookies.userToken, secret);
+        const loggedInUserId = decodedToken._id
+        const postId = req.params.id
+
+        const liked = await Post.findByIdAndUpdate(
+            postId,
+            {
+            $push: { likes: loggedInUserId },
+            },
+            {
+            new: true,
+            }
+        )
+
+        if (!liked) {
+            res.status(400)
+        } else {
+            console.log(liked)
+            res.json(liked)
         }
-        catch(err){
-            res.status(500).json(err)
+    },
+
+    unlike: async (req, res) => {
+        const decodedToken = jwt.verify(req.cookies.userToken, secret);
+        const loggedInUserId = decodedToken._id
+        const postId = req.params.id
+
+        const unliked = await Post.findByIdAndUpdate(
+            postId,
+            {
+            $pull: { likes: loggedInUserId },
+            },
+            {
+            new: true,
+            }
+        )
+
+        if (!unliked) {
+            res.status(400)
+        } else {
+            console.log(unliked)
+            res.json(unliked)
         }
     }
 }

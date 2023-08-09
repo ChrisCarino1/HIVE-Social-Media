@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {useNavigate} from 'react-router-dom'
+import {useNavigate, Link} from 'react-router-dom'
 import axios from 'axios'
 import main from './css/main.module.css'
 import Nav from './Nav';
@@ -15,6 +15,9 @@ const MessageDashboard = (props) => {
     const [messages, setMessages] = useState([])
     const [chats, setChats] = useState([])
     const [groupChatName, setGroupChatName] = useState("")
+    const [openSettings, setOpenSettings] = useState(false)
+    const [editGCName, setEditGCName] = useState("")
+    const [editGCImage, setEditGCImage] = useState("")
     const id = window.localStorage.getItem('uuid')
     const navigate = useNavigate()
 
@@ -66,7 +69,7 @@ const MessageDashboard = (props) => {
             console.log(props)
         })
         .catch((err) => {
-            console.log("Failed to connect to route here", err)
+            console.log("Failed to connect to route", err)
         })
     }, [])
 
@@ -188,7 +191,6 @@ const MessageDashboard = (props) => {
 
     const handleSubmit = async () => {
         if (selectedUsers.length == 1) {
-            console.log("here", selectedUsers[0]._id)
             accessChat(selectedUsers[0]._id)
             setSearchResult([])
             // search('')
@@ -211,116 +213,220 @@ const MessageDashboard = (props) => {
         }
     }
 
+    const fileSelectedHandler = (event) => {
+        const file = event.target.files[0]
+        const data = new FormData()
+        data.append('file', file)
+        data.append("upload_preset", "Hive_Media")
+        axios.post('https://api.cloudinary.com/v1_1/disq3dfbj/image/upload', data)
+        .then(res => {
+            console.log(res)
+            setEditGCImage(res.data.secure_url)
+        })
+        .catch(err => console.log(err))
+    }
+    
+    const handleGroupChatName = (name, chatId) => {
+        if (name == ""){
+            return
+        }
+
+        axios.put(`http://localhost:8000/api/users/chats/rename`, {name, chatId}, { withCredentials: true })
+            .then((res) => {
+                console.log("success")
+                console.log(res)
+                setEditGCName("")
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
+    const handleGroupChatImage = (img, chatId) => {
+        if (img == ""){
+            return
+        }
+
+        axios.put(`http://localhost:8000/api/users/chats/image`, {img, chatId}, { withCredentials: true })
+            .then((res) => {
+                console.log(res)
+                setEditGCImage("")
+            })
+            .catch((err) => {
+                console.log(err);
+            })
+    }
+
     return (
         <div className={main.row}>
-        <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
-        <div className={main.column1}>
-            <Nav/>
-        </div>
-        <div className={main.column2}>
-            <div className={main.topContent}>
-                <div>
-                    <span className={main.pageTitleText2}>Messages</span>
-                </div>
+            <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
+            <div className={main.column1}>
+                <Nav/>
             </div>
-            <div className={main.bottomContent}>
-                <div className={main.wdf}>
+            <div className={main.column2}>
+                <div className={main.topContent}>
                     {
-                        !createMessage? <div className={main.createChatContainer}><button onClick={() => {setCreateMessage(true)}} className={main.createChatBtn}>Create Chat</button></div>:null
-                    }
-                    {
-                        createMessage?
-                            <div className={main.createChatContainer}>
-                                <form>
-                                    <div>
-                                        <input className={main.userSearchInput} placeholder="User..." value={search} onChange={(e) => handleSearch(e.target.value)}/>
-                                        {
-                                            selectedUsers.length > 1? <input type="text" name="chatName" placeholder="chat name" onChange={(e) => setGroupChatName(e.target.value)}/>:null
-                                        }
-                                    </div>
-                                    <div className={main.selectedUsersContainer}>
-                                        {
-                                            selectedUsers.map((user) => (<div className={main.selectedUser}><p>{user.username}</p></div>))
-                                        }
-                                    </div>
-                                    <div className={main.createChatContainer}>
-                                        <button className={main.createChatBtn} onClick={() => {handleSubmit()}}>Create Chat</button>
-                                    </div>
-                                </form>
-                                { 
-                                loading ?
-                                <div>loading</div> : (searchResult?.slice(0,4).map(user => (
-                                    <div className={main.messageListUserHeading} onClick={() => handleGroup(user)}>
-                                        <img className={main.profilePicture2} src={user.image}/>
-                                        <p className={main.messageListUsername2}>{user.username}</p>
-                                    </div>
-                                )))}
-                            </div>:null
+                        openSettings?
+                        <div>
+                            <span className={main.pageTitleText2}>Settings</span>
+                        </div>
+                        :
+                        <div>
+                            <span className={main.pageTitleText2}>Messages</span>
+                        </div>
                     }
                 </div>
-                <div className={main.messageListContainer}>
+                <div className={main.bottomContent}>
                     {
-                        chats.map((chat) => (
-                            <div className={isActive.post_id == chat._id? main.chatActive:main.chat} key={chat._id} onClick={() => {handleClick(chat._id); accessChat(chat, chat.users[1]._id)}}>
+                        openSettings?
+                        <div>
+                            <div className={main.messageSettingsContainer}>
+                                <div className={main.settingsLabels}>
+                                    <label className={main}>Group chat name</label>
+                                    <label>Photo</label>
+                                </div>
+                                <div className={main.settingsFormControl}>
+                                    <form>
+                                        <div>
+                                            <input type="text" onChange={(e) => {setEditGCName(e.target.value)}}/>
+                                        </div>
+                                    </form>
+                                    <form>
+                                        <div>
+                                            <button for="file-input">Upload file</button>
+                                            <input type="file" className={main.fileInput} id="file-input" onChange={(fileSelectedHandler)}/>
+                                        </div>
+                                    </form>
+                                </div>
+                                <div className={main.settingsSubmit}>
+                                    <button onClick={() => {handleGroupChatName(editGCName, selectedChat._id); handleGroupChatImage(editGCImage, selectedChat._id)}}>Save</button>
+                                </div>
+                            </div>
+                            <div className={main.messageSettingsContainer2}>
                                 {
-                                    chat.isGroupChat?
-                                    <div>
-                                        <img className={main.profilePicture} src={chat.users[1].image}/>
-                                        <p className={main.messageListUsername}>{chat.users.length == 2? chat.users[1].username:chat.chatName}</p>
-                                    </div>
-                                    :
-                                    <div>
-                                        <img className={main.profilePicture} src={chat.users[1].image}/>
-                                        <p className={main.messageListUsername}>{chat.users.length == 2? chat.users[1].username:chat.chatName}</p>
-                                    </div>
+                                    selectedChat.users.map(() => (
+                                        <div>
+                                            <p>user</p>
+                                        </div>
+                                    ))
                                 }
                             </div>
-                        ))
+                        </div>
+                        :
+                        <div>
+                            <div>
+                                {
+                                    !createMessage? <div className={main.createChatContainer}><button onClick={() => {setCreateMessage(true)}} className={main.createChatBtn2}>Create Chat</button></div>:null
+                                }
+                                {
+                                    createMessage?
+                                        <div className={main.createChatContainer}>
+                                            <form className={main.createChatForm}>
+                                                <div className={main.createChatDiv1}>
+                                                    <input className={main.userSearchInput} placeholder="User..." value={search} onChange={(e) => handleSearch(e.target.value)}/>
+                                                </div>
+                                                    {
+                                                        selectedUsers.length > 1? 
+                                                            <div className={main.createChatDiv2}>
+                                                                <input className={main.userSearchInput} type="text" name="chatName" placeholder="Chat Name" onChange={(e) => setGroupChatName(e.target.value)}/>
+                                                            </div>:null
+                                                    }
+                                                    {
+                                                        selectedUsers?
+                                                            <div className={main.selectedUsersContainer}>
+                                                            {
+                                                                selectedUsers.map((user) => (<div className={main.selectedUser}><p>{user.username}</p></div>))
+                                                            }
+                                                            </div>:null
+                                                    }
+                                                <div class={main.createChatDiv1}>
+                                                    <button className={main.createChatBtn} onClick={() => {handleSubmit()}}>Create Chat</button>
+                                                </div>
+                                            </form>
+                                            { 
+                                                loading?
+                                                <div>loading</div> 
+                                                : 
+                                                (searchResult?.slice(0,4).map(user => (
+                                                    <div className={main.messageListUserHeading2} onClick={() => handleGroup(user)}>
+                                                        <img className={main.profilePicture2} src={user.image}/>
+                                                        <p className={main.messageListUsername2}>{user.username}</p>
+                                                    </div>
+                                                )))
+                                            }
+                                        </div>:null
+                                }
+                            </div>
+                            <div className={main.messageListContainer}>
+                                {
+                                    chats.map((chat) => (
+                                        <div className={isActive.post_id == chat._id? main.chatActive:main.chat} key={chat._id} onClick={() => {handleClick(chat._id); accessChat(chat, chat.users[1]._id)}}>
+                                            {
+                                                chat.isGroupChat?
+                                                <div>
+                                                    <img className={main.profilePicture} src={chat.groupChatImage}/>
+                                                    <p className={main.messageListUsername}>{chat.users.length == 2? chat.users[1].username:chat.chatName}</p>
+                                                </div>
+                                                :
+                                                <div>
+                                                    <img className={main.profilePicture} src={chat.users[1].image}/>
+                                                    <p className={main.messageListUsername}>{chat.users.length == 2? chat.users[1].username:chat.chatName}</p>
+                                                </div>
+                                            }
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
                     }
                 </div>
             </div>
-        </div>
-            {
-                selectedChat?
-                <div className={main.column3}>
-                    <div className={main.topContent}>
-                        {
-                            selectedChat.isGroupChat? 
-                            <div className={main.openChatTop}>
+                {
+                    selectedChat?
+            <div className={main.column3}>
+                <div className={main.topContent}>
+                    {
+                        selectedChat.isGroupChat? 
+                        <div className={main.openChatTopGC}>
+                            <div className={main.one}>
                                 <img className={main.profilePicture} src={selectedChat?.groupChatImage}/>
                                 <p className={main.pageTitleText3}>{selectedChat?.chatName}</p>
                             </div>
-                            :
-                            <div className={main.openChatTop}>
-                                <img className={main.profilePicture} src={selectedChat?.users[1].image}/>
-                                <p className={main.pageTitleText3}>{selectedChat?.users[1].username}</p>
+                            <div className={main.two}>
+                            <i class="uil uil-bars" onClick={() => setOpenSettings(!openSettings)}></i>
                             </div>
+                        </div>
+                        :
+                        <div className={main.openChatTop}>
+                            <img className={main.profilePicture} src={selectedChat?.users[1].image}/>
+                            <p className={main.pageTitleText3}>{selectedChat?.users[1].username}</p>
+                        </div>
+                    }
+                </div>
+                <div className={main.messagesContainer}>
+                    <div>
+                        {
+                            selectedChat.isGroupChat? 
+                            messages.map((message) => (
+                                <div className={main.messageDiv}>
+                                    {message.sender._id == id? (<div className={main.loggedUserMessageDiv}><p>{message.content}</p></div>):(<div className={main.userMessageDiv}><p>{message.sender.username}</p><p>{message.content}</p></div>)}
+                                </div>
+                            ))
+                            :
+                            messages.map((message) => (
+                                <div className={main.messageDiv}>
+                                    {message.sender._id == id? (<div className={main.loggedUserMessageDiv}><p>{message.content}</p></div>):(<div className={main.userMessageDiv}><p>{message.sender.username}</p><p>{message.content}</p></div>)}
+                                </div>
+                            ))
                         }
                     </div>
-                    <div className={main.messagesContainer}>
-                        <div>
-                            {
-                                selectedChat.isGroupChat? 
-                                    messages.map((message) => (
-                                        <div className={main.messageDiv}>
-                                            {message.sender._id == id? (<div className={main.loggedUserMessageDiv}><p>{message.content}</p></div>):(<div className={main.userMessageDiv}><p>{message.sender.username}</p><p>{message.content}</p></div>)}
-                                        </div>
-                                    ))
-                                    :
-                                    messages.map((message) => (
-                                        <div className={main.messageDiv}>
-                                            {message.sender._id == id? (<div className={main.loggedUserMessageDiv}><p>{message.content}</p></div>):(<div className={main.userMessageDiv}><p>{message.content}</p></div>)}
-                                        </div>
-                                    ))
-                            }
-                        </div>
-                    </div>
-                    <div className={main.messageInputGroup}>
-                        <input className={main.chatInput} name="msg" type="text" value={newMessage} onChange={(e) => {setNewMessage(e.target.value)}} onKeyDown={(e) => {sendMessage(e)}}/>
-                    </div>
-                </div>:null
-            }
-    </div>
+                </div>
+                <div className={main.messageInputGroup}>
+                    <input className={main.chatInput} name="msg" type="text" value={newMessage} onChange={(e) => {setNewMessage(e.target.value)}} onKeyDown={(e) => {sendMessage(e)}}/>
+                </div>
+            </div>:null
+                }
+        </div>
     )
 }
 
