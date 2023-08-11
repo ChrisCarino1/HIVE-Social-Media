@@ -6,31 +6,36 @@ import Nav from './Nav';
 
 
 const MessageDashboard = (props) => {
-    const {allUsers, setAllUsers, username, setUsername, loggedInUser, setLoggedInUser, socket} = props
-    const [user, setUser] = useState({})
-    const [search, setSearch] = useState('');
-    const [userFollowers, setUserFollowers] = useState([])
-    const [selectedChat, setSelectedChat] = useState()
-    const [newMessage, setNewMessage] = useState('')
-    const [messages, setMessages] = useState([])
-    const [chats, setChats] = useState([])
-    const [groupChatName, setGroupChatName] = useState("")
-    const [openSettings, setOpenSettings] = useState(false)
-    const [editGCName, setEditGCName] = useState("")
-    const [editGCImage, setEditGCImage] = useState("")
-    const id = window.localStorage.getItem('uuid')
     const navigate = useNavigate()
+    const id = window.localStorage.getItem('uuid')
+    
+    const {allUsers, setAllUsers, username, setUsername, loggedInUser, setLoggedInUser, socket} = props
 
-    const [createMessage, setCreateMessage] = useState(false)
-
-    const [searchResult, setSearchResult] = useState([]); 
-    const [selectedUsers, setSelectedUsers] = useState([])
-    const [loading, setLoading] = useState(false);
-
+    const [user, setUser] = useState({})
     const [isActive, setIsActive] = useState({
         status: false,
         post_id: 0
     })
+
+    const [selectedChat, setSelectedChat] = useState()
+
+    const [userFollowers, setUserFollowers] = useState([])
+    const [messages, setMessages] = useState([])
+    const [chats, setChats] = useState([])
+    const [searchResult, setSearchResult] = useState([]); 
+    const [selectedUsers, setSelectedUsers] = useState([])
+
+    const [newMessage, setNewMessage] = useState("")
+    const [search, setSearch] = useState("");
+    const [groupChatName, setGroupChatName] = useState("")
+    const [editGCName, setEditGCName] = useState("")
+    const [editGCImage, setEditGCImage] = useState("")
+
+    const [openSettings, setOpenSettings] = useState(false)
+    const [addUsers, setAddUsers] = useState(false)
+    const [createMessage, setCreateMessage] = useState(false)
+    const [loading, setLoading] = useState(false);
+
 
     socket.on('send-message-to-all-clients', data => {
         // console.log(data)
@@ -54,6 +59,13 @@ const MessageDashboard = (props) => {
         setLoading(true)
         const { data } = await axios.get(`http://localhost:8000/api/users?search=${search}`,{ withCredentials: true });
         console.log("data:", data)
+
+        for(var user in data){
+            if (!(user in selectedUsers)){
+                console.log(user)
+            }
+        }
+
         setLoading(false)
         setSearchResult(data)
     }catch (err) {
@@ -185,7 +197,8 @@ const MessageDashboard = (props) => {
     }
         else {
             setSelectedUsers([...selectedUsers, userToAdd]);
-            setSearch('')
+            setSearchResult()
+            setSearch()
     }
     }
 
@@ -193,7 +206,7 @@ const MessageDashboard = (props) => {
         if (selectedUsers.length == 1) {
             accessChat(selectedUsers[0]._id)
             setSearchResult([])
-            // search('')
+            search('')
         }
         else {
             try {
@@ -257,6 +270,27 @@ const MessageDashboard = (props) => {
             })
     }
 
+    const handleRemoveUser = (userId, chatId) => {
+        axios.put('http://localhost:8000/api/users/chats/groups/delete', {userId, chatId}, { withCredentials: true})
+            .then((res) => {
+                console.log(res)
+                setSelectedChat(selectedChat)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
+    const handleAddUser = (userId, chatId) => {
+        axios.put('http://localhost:8000/api/users/chats/groups/add', {userId, chatId}, { withCredentials: true})
+            .then((res) => {
+                console.log(res)
+            })
+            .catch((err) => {
+                console.log(err)
+            })
+    }
+
     return (
         <div className={main.row}>
             <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css"/>
@@ -304,12 +338,44 @@ const MessageDashboard = (props) => {
                             </div>
                             <div className={main.messageSettingsContainer2}>
                                 {
-                                    selectedChat.users.map(() => (
-                                        <div>
-                                            <p>user</p>
+                                    selectedChat.users.map((user) => (
+                                        <div className={main.settingsUserContainer}>
+                                            <div>
+                                                <img className={main.profilePicture} src={user.image}/>
+                                                <p>{user.username}</p>
+                                            </div>
+                                            <div>
+                                                {
+                                                    user._id != selectedChat?.groupAdmin._id? 
+                                                    <i class="uil uil-multiply" onClick={() => {handleRemoveUser(user._id, selectedChat._id)}}></i>
+                                                    :null
+                                                }
+                                            </div>
                                         </div>
                                     ))
                                 }
+                                <div>
+                                    <button onClick={() => {setAddUsers(!addUsers)}}>Add User</button>
+                                    {
+                                        addUsers? 
+                                        <div>
+                                            <form>
+                                                <input className={main.userSearchInput2} placeholder="User..." value={search} onChange={(e) => handleSearch(e.target.value)}/>
+                                                {
+                                                    searchResult?.slice(0,4).map(user => (
+                                                        <div className={main.settingsUserContainer} onClick={() => {handleAddUser(user._id, selectedChat._id); setSearchResult(); setSearch()}}>
+                                                            <div>
+                                                                <img className={main.profilePicture} src={user.image}/>
+                                                                <p>{user.username}</p>
+                                                            </div>
+                                                        </div>
+                                                    ))
+                                                }
+                                            </form>
+                                        </div>
+                                            :null
+                                    }
+                                </div>
                             </div>
                         </div>
                         :

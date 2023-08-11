@@ -21,6 +21,7 @@
 .row{
     background-color: var(--backdrop-color);
     min-height: 100vh;
+    width: 100%;
 }
 
 .row:after{
@@ -39,6 +40,7 @@
     margin-top: 48px;
     display: flex;
     flex-direction: column;
+    overflow-y: scroll;
 }
 
 .column {
@@ -93,6 +95,30 @@
 .error {
     color: red;
     margin: 5px;
+}
+
+/* SCROLL BAR CSS */
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: var(--hover-color); 
+    -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
+}
+::-webkit-scrollbar-thumb:window-inactive {
+    background: var(--hover-color); 
 }
 
 /* NAV CSS */
@@ -214,12 +240,17 @@ a:hover .linkName {
 
 /* MESSAGE DASHBOARD CSS */
 
-.userSearchInput {
+.userSearchInput, .userSearchInput2 {
     padding: 3px;
     border-radius: 6px;
     border: none;
     cursor: pointer;
     width: 98%;
+}
+
+.userSearchInput2 {
+    width: 95%;
+    margin: 8px;
 }
 
 .createChatBtn, .createChatBtn2 {
@@ -245,6 +276,11 @@ a:hover .linkName {
     height: 100vh;
     border-right: solid 2px var(--border-color);
     border-left: solid 2px var(--border-color);
+    overflow-y: auto;
+}
+
+.column2 .topContent, .column2 .bottomContent {
+    margin-left: 10px;
 }
 
 .column3 {
@@ -380,7 +416,7 @@ a:hover .linkName {
 .messagesContainer {
     background-color: var(--backdrop-color);
     margin: 0px 10px 10px 10px;
-    overflow-y: scroll;
+    overflow-y: auto;
     height: 83%;
     max-height: 83%;
     border-left: solid 2px var(--border-color);
@@ -502,6 +538,8 @@ a:hover .linkName {
 
 .messageSettingsContainer2 {
     height: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .messageSettingsContainer div label {
@@ -533,6 +571,53 @@ a:hover .linkName {
 
 .fileInput {
     display: none;
+}
+
+.settingsUserContainer {
+    background-color: var(--base-color);
+    border-radius: 25px;
+    margin: 5px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.settingsUserContainerActive {
+    background-color: #eb9526;
+    border-radius: 25px;
+    margin: 5px;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.settingsUserContainer div, .settingsUserContainerActive div {
+    display: flex;
+    align-items: center;
+    margin: 5px;
+}
+
+.settingsUserContainer div p, .settingsUserContainerActive p {
+    margin-top: 15px;
+    font-weight: 600;
+    color: white;
+}
+
+.settingsUserContainer div i:hover {
+    color: red;
+}
+
+.messageSettingsContainer2 div button {
+    height: 75%;
+    width: 97%;
+    padding: 5px 10px;
+    background-color:#007bff;
+    color: #ffffff;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+}
+
+.messageSettingsContainer2 div form {
+    max-height: 1000px;
 }
 
 /* GROUP CHAT CSS */
