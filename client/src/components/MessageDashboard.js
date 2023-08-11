@@ -377,6 +377,9 @@ const MessageDashboard = (props) => {
                                     }
                                 </div>
                             </div>
+                            <div className={main.messageSettingsContainer3}>
+                                <button onClick={() => {handleRemoveUser(id, selectedChat._id)}}>Leave Chat</button>
+                            </div>
                         </div>
                         :
                         <div>

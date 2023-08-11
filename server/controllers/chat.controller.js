@@ -181,14 +181,17 @@ const groupChatAdd = asyncHandler(async (req, res) => {
     });
 
     const removeUser = asyncHandler(async (req, res) => {
-        const { chatId, userId } = req.body;    
+        const decodedToken = jwt.verify(req.cookies.userToken, secret);
+        const loggedInUserId = decodedToken._id
+        const { chatId, userId } = req.body;
+
         const remove = await Chat.findByIdAndUpdate(
             chatId,
             {
-            $pull: { users: userId },
+                $pull: { users: userId },
             },
             {
-            new: true,
+                new: true,
             }
         )
             .populate("users", "-password")
@@ -198,7 +201,7 @@ const groupChatAdd = asyncHandler(async (req, res) => {
             res.status(404);
             throw new Error("Chat Not Found");
         } else {
-            res.json(remove );
+            res.json(remove);
         }
         });
     
